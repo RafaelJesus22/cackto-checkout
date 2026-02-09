@@ -15,6 +15,7 @@ export default function CheckoutClient({ product }: { product: Product }) {
         <UserForm />
         <PaymentMethods.Container>
           <PaymentMethods.Pix />
+          <PaymentMethods.CreditCard />
         </PaymentMethods.Container>
       </main>
     </CheckoutProvider>

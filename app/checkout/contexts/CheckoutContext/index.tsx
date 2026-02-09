@@ -16,7 +16,9 @@ interface CheckoutContextProps {
   userData: UserData;
   userDataFormErrors: UserData;
   paymentMethod: PaymentMethodsEnum;
+  installments: number;
   setUserData: (userData: UserData) => void;
+  setInstallments: (installments: number) => void;
   clearUserFormError: (field: keyof UserData) => void;
   setPaymentMethod: (paymentMethod: PaymentMethodsEnum) => void;
 }
@@ -33,13 +35,19 @@ export function CheckoutProvider({
   const [product, setProduct] = useState(initialProduct);
   const [userData, setUserData] = useState({} as UserData);
   const [userDataFormErrors, setUserDataFormErrors] = useState({} as UserData);
+  const [installments, setInstallments] = useState(1);
 
   // Deixei pix pré-selecionado para sugestionar ao usuário a usar o pix
-  const [paymentMethod, setPaymentMethod] = useState(PaymentMethodsEnum.PIX);
+  const [paymentMethod, _setPaymentMethod] = useState(PaymentMethodsEnum.PIX);
 
   const clearUserFormError = (field: keyof UserData) => {
     setUserDataFormErrors((prev) => ({ ...prev, [field]: "" }));
   };
+
+  function setPaymentMethod(paymentMethod: PaymentMethodsEnum) {
+    _setPaymentMethod(paymentMethod);
+    setInstallments(1);
+  }
 
   return (
     <CheckoutContext.Provider
@@ -48,9 +56,11 @@ export function CheckoutProvider({
         userData,
         userDataFormErrors,
         paymentMethod,
+        installments,
         setUserData,
         clearUserFormError,
         setPaymentMethod,
+        setInstallments,
       }}
     >
       {children}
