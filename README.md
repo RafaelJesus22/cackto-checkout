@@ -15,6 +15,8 @@
 
 ### Transparência de Uso de IA
 
+- IA implementou a função formatCurrency (utils/currency.ts)
+
 ### Regras de negócio
 
 ### Como executar
