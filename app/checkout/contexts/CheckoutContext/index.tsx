@@ -25,9 +25,7 @@ export function CheckoutProvider({
 }) {
   const [product, setProduct] = useState(initialProduct);
   const [userData, setUserData] = useState({} as UserData);
-  const [userDataFormErrors, setUserDataFormErrors] = useState({
-    cpf: "CPF inválido",
-  } as UserData);
+  const [userDataFormErrors, setUserDataFormErrors] = useState({} as UserData);
 
   const clearUserFormError = (field: keyof UserData) => {
     setUserDataFormErrors((prev) => ({ ...prev, [field]: "" }));
