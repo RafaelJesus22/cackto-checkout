@@ -7,6 +7,7 @@ import ProductDetails from "../ProductDetails";
 import UserForm from "../UserForm";
 import * as PaymentMethods from "../PaymentMethods";
 import Summary from "../Summary";
+import Submit from "../Submit";
 
 export default function CheckoutClient({ product }: { product: Product }) {
   return (
@@ -19,6 +20,7 @@ export default function CheckoutClient({ product }: { product: Product }) {
           <PaymentMethods.CreditCard />
         </PaymentMethods.Container>
         <Summary />
+        <Submit />
       </main>
     </CheckoutProvider>
   );

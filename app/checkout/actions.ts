@@ -19,3 +19,11 @@ export async function getProducs(): Promise<Product[]> {
     }, 1000);
   });
 }
+
+export async function submit() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 1000);
+  });
+}
