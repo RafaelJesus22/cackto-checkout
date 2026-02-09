@@ -1,12 +1,25 @@
-import { useContext, createContext } from "react";
+import { Product } from "@/app/models/product";
+import { useContext, createContext, useState } from "react";
 
-interface CheckoutContextProps {}
+interface CheckoutContextProps {
+  product: Product;
+}
 
 const CheckoutContext = createContext({} as CheckoutContextProps);
 
-export function CheckoutProvider({ children }: { children: React.ReactNode }) {
+export function CheckoutProvider({
+  children,
+  initialProduct,
+}: {
+  children: React.ReactNode;
+  initialProduct: Product;
+}) {
+  const [product, setProduct] = useState(initialProduct);
+
   return (
-    <CheckoutContext.Provider value={{}}>{children}</CheckoutContext.Provider>
+    <CheckoutContext.Provider value={{ product }}>
+      {children}
+    </CheckoutContext.Provider>
   );
 }
 
