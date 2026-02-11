@@ -1,6 +1,10 @@
 import { Product } from "@/app/models/product";
 import { useContext, createContext, useState, useMemo } from "react";
-import { CheckoutTotals, paymentStrategies } from "../../paymentMethods";
+
+import {
+  CheckoutTotals,
+  paymentStrategies,
+} from "@/app/checkout/paymentMethods";
 
 export enum PaymentMethodsEnum {
   PIX = "PIX",
@@ -20,6 +24,7 @@ interface CheckoutContextProps {
   installments: number;
   checkoutTotals: CheckoutTotals;
   setUserData: (userData: UserData) => void;
+  setUserDataFormErrors: (userData: UserData) => void;
   setInstallments: (installments: number) => void;
   clearUserFormError: (field: keyof UserData) => void;
   setPaymentMethod: (paymentMethod: PaymentMethodsEnum) => void;
@@ -75,6 +80,7 @@ export function CheckoutProvider({
         clearUserFormError,
         setPaymentMethod,
         setInstallments,
+        setUserDataFormErrors,
       }}
     >
       {children}

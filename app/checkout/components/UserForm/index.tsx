@@ -4,27 +4,28 @@ import { InputMask } from "@react-input/mask";
 import { useCheckout } from "../../contexts/CheckoutContext";
 
 export default function UserForm() {
-  const { setUserData, userDataFormErrors, clearUserFormError } = useCheckout();
+  const { setUserData, userDataFormErrors, clearUserFormError, userData } =
+    useCheckout();
 
   return (
     <div className="m-4 p-4 bg-white rounded shadow">
       <div className="mb-4">
         <label
-          htmlFor="name"
+          htmlFor="cpf"
           className={`block ${userDataFormErrors.cpf ? "text-red-400" : "text-stone-700"}`}
         >
-          Nome
+          CPF
         </label>
         <InputMask
           type="text"
-          id="name"
+          id="cpf"
           className={`border rounded-lg w-full p-2 ${userDataFormErrors.cpf ? "border-red-400" : "border-stone-400"}`}
           mask="___.___.___-__"
           placeholder="___.___.___-__"
           replacement={{ _: /\d/ }}
           onChange={(e) => {
             clearUserFormError("cpf");
-            setUserData({ ...userDataFormErrors, cpf: e.target.value });
+            setUserData({ ...userData, cpf: e.target.value });
           }}
         />
         {userDataFormErrors.cpf ? (
@@ -48,7 +49,7 @@ export default function UserForm() {
           className={`border rounded-lg w-full p-2 ${userDataFormErrors.email ? "border-red-400" : "border-stone-400"}`}
           onChange={(e) => {
             clearUserFormError("email");
-            setUserData({ ...userDataFormErrors, email: e.target.value });
+            setUserData({ ...userData, email: e.target.value });
           }}
         />
         {userDataFormErrors.email ? (

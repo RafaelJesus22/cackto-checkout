@@ -1,6 +1,7 @@
 "use server";
 
 import { Product } from "../models/product";
+import { PaymentMethodsEnum } from "./contexts/CheckoutContext";
 
 export async function getProducs(): Promise<Product[]> {
   return new Promise((resolve) => {
@@ -20,7 +21,15 @@ export async function getProducs(): Promise<Product[]> {
   });
 }
 
-export async function submit() {
+interface InPaymentAction {
+  paymentMethod: PaymentMethodsEnum;
+  productValue: number;
+  installments: number;
+  cpf: string;
+  email: string;
+}
+
+export async function submit(_: InPaymentAction) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve({ success: true });

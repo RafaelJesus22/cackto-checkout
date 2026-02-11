@@ -1,15 +1,45 @@
-"use client";
-
 import { useState } from "react";
-import { submit } from "../../actions";
+import { z } from "zod";
+
+import { submit } from "@/app/checkout/actions";
+import { useCheckout } from "@/app/checkout/contexts/CheckoutContext";
+import { validateCPF } from "@/app/checkout/utils/validators/cpf";
 
 export default function Submit() {
   const [isLoading, setIsLoading] = useState(false);
+  const {
+    userData,
+    setUserDataFormErrors,
+    installments,
+    paymentMethod,
+    product,
+  } = useCheckout();
 
   async function handleClick() {
+    const isEmailValid = z.email().safeParse(userData.email).success;
+    const isCpfValid = validateCPF(userData.cpf);
+
+    setUserDataFormErrors({
+      cpf: isCpfValid ? "" : "CPF inválido",
+      email: isEmailValid ? "" : "E-mail inválido",
+    });
+
+    if (!isCpfValid || !isEmailValid) {
+      return;
+    }
+
     setIsLoading(true);
+
     try {
-      await submit();
+      await submit({
+        cpf: userData.cpf,
+        email: userData.cpf,
+        installments,
+        paymentMethod,
+        productValue: product.currentPrice,
+      });
+
+      alert("Sua compra foi realizada com sucesso");
     } finally {
       setIsLoading(false);
     }
