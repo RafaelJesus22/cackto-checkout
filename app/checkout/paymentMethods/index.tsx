@@ -1,4 +1,6 @@
 import { PaymentMethodsEnum } from "../contexts/CheckoutContext";
+import { CreditCardPaymentMethod } from "./creditCard";
+import { PixPaymentStrategy } from "./pix";
 
 export interface InPayment {
   totalValue: number;
@@ -17,7 +19,10 @@ export interface PaymentStrategy {
   calculateTotals: (data: InPayment) => CheckoutTotals;
 }
 
-const paymentMethods: Record<PaymentMethodsEnum, PaymentStrategy> = {
-  [PaymentMethodsEnum.CREDIT_CARD]: {} as PaymentStrategy,
-  [PaymentMethodsEnum.PIX]: {} as PaymentStrategy,
+const creditCardStrategy = new CreditCardPaymentMethod();
+const pixStrategy = new PixPaymentStrategy();
+
+export const paymentStrategies: Record<PaymentMethodsEnum, PaymentStrategy> = {
+  PIX: pixStrategy,
+  CREDIT_CARD: creditCardStrategy,
 };

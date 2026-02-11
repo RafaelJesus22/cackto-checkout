@@ -1,5 +1,6 @@
 import { Product } from "@/app/models/product";
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useMemo } from "react";
+import { CheckoutTotals, paymentStrategies } from "../../paymentMethods";
 
 export enum PaymentMethodsEnum {
   PIX = "PIX",
@@ -17,6 +18,7 @@ interface CheckoutContextProps {
   userDataFormErrors: UserData;
   paymentMethod: PaymentMethodsEnum;
   installments: number;
+  checkoutTotals: CheckoutTotals;
   setUserData: (userData: UserData) => void;
   setInstallments: (installments: number) => void;
   clearUserFormError: (field: keyof UserData) => void;
@@ -40,14 +42,25 @@ export function CheckoutProvider({
   // Deixei pix pré-selecionado para sugestionar ao usuário a usar o pix
   const [paymentMethod, _setPaymentMethod] = useState(PaymentMethodsEnum.PIX);
 
-  const clearUserFormError = (field: keyof UserData) => {
+  function clearUserFormError(field: keyof UserData) {
     setUserDataFormErrors((prev) => ({ ...prev, [field]: "" }));
-  };
+  }
 
   function setPaymentMethod(paymentMethod: PaymentMethodsEnum) {
     _setPaymentMethod(paymentMethod);
     setInstallments(1);
   }
+
+  const checkoutTotals: CheckoutTotals = useMemo(() => {
+    const paymentMehtod = paymentStrategies[paymentMethod];
+
+    const totals = paymentMehtod.calculateTotals({
+      totalValue: product.currentPrice,
+      installments,
+    });
+
+    return totals;
+  }, [installments, product, paymentMethod]);
 
   return (
     <CheckoutContext.Provider
@@ -57,6 +70,7 @@ export function CheckoutProvider({
         userDataFormErrors,
         paymentMethod,
         installments,
+        checkoutTotals,
         setUserData,
         clearUserFormError,
         setPaymentMethod,

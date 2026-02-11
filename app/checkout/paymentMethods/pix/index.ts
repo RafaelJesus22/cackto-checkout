@@ -1,6 +1,6 @@
 import { CheckoutTotals, InPayment, PaymentStrategy } from "..";
 
-export class PixPaymentMethod implements PaymentStrategy {
+export class PixPaymentStrategy implements PaymentStrategy {
   calculateTotals({ totalValue }: InPayment): CheckoutTotals {
     /*
       Regras de taxa para pagamento com pix:
@@ -13,5 +13,9 @@ export class PixPaymentMethod implements PaymentStrategy {
       productorLiquid: totalValue,
       totalValue,
     } as CheckoutTotals;
+  }
+
+  static getSavingsWithPix(currentPrice: number, productPrice: number) {
+    return currentPrice - productPrice;
   }
 }

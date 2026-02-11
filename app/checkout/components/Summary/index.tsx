@@ -3,9 +3,11 @@ import {
   PaymentMethodsEnum,
   useCheckout,
 } from "../../contexts/CheckoutContext";
+import { PixPaymentStrategy } from "../../paymentMethods/pix";
 
 export default function Summary() {
-  const { product, paymentMethod, setPaymentMethod } = useCheckout();
+  const { product, checkoutTotals, paymentMethod, setPaymentMethod } =
+    useCheckout();
 
   function handleSelectPix() {
     setPaymentMethod(PaymentMethodsEnum.PIX);
@@ -25,7 +27,7 @@ export default function Summary() {
         <div className="flex items-center justify-between gap-4">
           <p>Taxa Cakto</p>
           <p>
-            <strong>{formatCurrency(0)}</strong>
+            <strong>{formatCurrency(checkoutTotals.caktoFee)}</strong>
           </p>
         </div>
         <div className="flex items-center justify-between gap-4">
@@ -33,18 +35,28 @@ export default function Summary() {
             <strong>Total</strong>
           </p>
           <p>
-            <strong>{formatCurrency(0)}</strong>
+            <strong>{formatCurrency(checkoutTotals.totalValue)}</strong>
           </p>
         </div>
       </div>
       <div className="border-t border-stone-300 flex flex-col gap-1">
         <div className="flex items-center justify-between gap-4 mt-2">
           <p className="text-green-700 font-bold">{product.producer} recebe</p>
-          <p className="text-green-700 font-bold">{formatCurrency(0)}</p>
+          <p className="text-green-700 font-bold">
+            {formatCurrency(checkoutTotals.productorLiquid)}
+          </p>
         </div>
         {paymentMethod !== PaymentMethodsEnum.PIX ? (
           <div>
-            <p>Pagando com PIX você economizaria {formatCurrency(0)}</p>
+            <p>
+              Pagando com PIX você economizaria{" "}
+              {formatCurrency(
+                PixPaymentStrategy.getSavingsWithPix(
+                  checkoutTotals.totalValue,
+                  product.currentPrice,
+                ),
+              )}
+            </p>
             <input
               type="button"
               value="Pagar com Pix"

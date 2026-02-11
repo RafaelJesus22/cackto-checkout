@@ -40,8 +40,8 @@ export class CreditCardPaymentMethod implements PaymentStrategy {
       buyerFee,
       caktoFee,
       productorFee,
-      productorLiquid: totalValue,
-      totalValue,
+      productorLiquid: totalValue - productorFee,
+      totalValue: totalValue + buyerFee,
     };
   }
 }
