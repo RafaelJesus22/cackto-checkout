@@ -13,6 +13,11 @@ export default function Summary() {
     setPaymentMethod(PaymentMethodsEnum.PIX);
   }
 
+  const pixSavings = PixPaymentStrategy.getSavingsWithPix(
+    checkoutTotals.totalValue,
+    product.currentPrice,
+  );
+
   return (
     <div className="bg-white p-4 m-4 rounded shadow">
       <h1 className="text-xl font-bold mb-4 text-stone-700">Resumo</h1>
@@ -48,15 +53,19 @@ export default function Summary() {
         </div>
         {paymentMethod !== PaymentMethodsEnum.PIX ? (
           <div>
-            <p>
-              Pagando com PIX você economizaria{" "}
-              {formatCurrency(
-                PixPaymentStrategy.getSavingsWithPix(
-                  checkoutTotals.totalValue,
-                  product.currentPrice,
-                ),
-              )}
-            </p>
+            {pixSavings ? (
+              <p>
+                Pagando com PIX você economizaria{" "}
+                {formatCurrency(
+                  PixPaymentStrategy.getSavingsWithPix(
+                    checkoutTotals.totalValue,
+                    product.currentPrice,
+                  ),
+                )}
+              </p>
+            ) : (
+              <p>Pagando com PIX a aprovação é instântanea</p>
+            )}
             <input
               type="button"
               value="Pagar com Pix"
