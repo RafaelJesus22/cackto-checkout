@@ -15,6 +15,9 @@
 
 ### Transparência de Uso de IA
 
+- IA implementou a função formatCurrency (utils/currency.ts)
+- update the labels and the inputs, so if there is a error the text color (of the label) and the input border will be red-400
+
 ### Regras de negócio
 
 ### Como executar
